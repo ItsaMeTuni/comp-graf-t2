@@ -2,6 +2,8 @@ from OpenGL.GLUT import *
 from OpenGL.GLU import *
 from OpenGL.GL import *
 import time
+import keyboard
+from player import Player
 
 entities = []
 
@@ -15,6 +17,10 @@ def init():
     window = glutCreateWindow("Matrix Stack")
     glutDisplayFunc(display)
     glutReshapeFunc(reshape)
+    glutKeyboardFunc(keyboard.on_down)
+    glutKeyboardUpFunc(keyboard.on_up)
+
+    entities.append(Player())
 
     glClearColor(0, 0, 0, 1)
     glutMainLoop()
@@ -30,14 +36,18 @@ def reshape(w, h):
 
 last_display_timestamp = time.time() 
 def display():
-    glClearColor(1, 1, 1, 1)
+    global last_display_timestamp
 
-    delta = time.time() - last_display_timestamp
+    glClearColor(1, 1, 1, 1)
     
+    delta = time.time() - last_display_timestamp
+  
     for entity in entities:
         entity.tick(delta)
-        entity.draw()
+        entity.render()
 
     last_display_timestamp = time.time()
+
+    glutPostRedisplay()
 
 init()
