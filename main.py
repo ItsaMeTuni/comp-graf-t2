@@ -44,8 +44,6 @@ def display():
     
     delta = time.time() - last_display_timestamp
 
-    Model("").render()
-
     for entity in entities:
         entity.tick(delta)
         entity.render()
