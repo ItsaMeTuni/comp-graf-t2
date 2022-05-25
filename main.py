@@ -5,8 +5,8 @@ import time
 import keyboard
 from player import Player
 from model import Model
-
-entities = []
+from entity import entities
+from bullet import Bullet
 
 def init():
     glutInit(sys.argv)
@@ -22,6 +22,7 @@ def init():
     glutKeyboardUpFunc(keyboard.on_up)
 
     entities.append(Player())
+    entities.append(Bullet())
 
     glClearColor(0, 0, 0, 1)
     glutMainLoop()

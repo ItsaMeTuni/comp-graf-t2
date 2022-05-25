@@ -1,6 +1,8 @@
 from OpenGL.GL import *
 from vec import Vec
 
+entities = []
+
 class Entity:
     def __init__(self, model):
         self.model = model
@@ -16,4 +18,6 @@ class Entity:
         glRotatef(self.rotation, 0, 0, 1)
         self.model.render()
         glPopMatrix()
-        
+
+    def destroy(self):
+        entities.remove(self)
