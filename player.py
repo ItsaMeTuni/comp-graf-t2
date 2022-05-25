@@ -10,8 +10,8 @@ class Player(Entity):
 
     def __init__(self):
         super().__init__(player_model)
-        self.position = Vec(2, 2)
-        self.rotation = 90 
+        self.position = Vec(0, 0)
+        self.rotation = 0 
 
     def tick(self, delta):
         super().tick(delta)
@@ -26,10 +26,11 @@ class Player(Entity):
             dist -= 1
 
         if is_key_pressed(b'd'):
-            rot += 1
+            rot -= 1
         
         if is_key_pressed(b'a'):
-            rot -= 1
+            rot += 1
 
-        self.position += Vec(0, dist) * speed * delta
         self.rotation += rot * rotation_speed * delta
+        self.position += Vec(0, dist).rotate(self.rotation) * speed * delta
+

@@ -2,7 +2,7 @@ from OpenGL.GLUT import *
 from OpenGL.GLU import *
 from OpenGL.GL import *
 
-pixel_size = 0.5
+pixel_size = 1
 
 class Model:
 
@@ -18,15 +18,16 @@ class Model:
 
 
     def render(self):
+
         glBegin(GL_QUADS)
 
         for x in range(self.width):
             for y in range(self.height):
-                pixel = self.pixels[y * self.width + x]
-                glColor3f(*self.colors[pixel])
+                pixel_color = self.pixels[y * self.width + x]
+                glColor3f(*self.colors[pixel_color])
 
-                local_x = (x - self.width/2) * pixel_size
-                local_y = (y - self.height/2) * pixel_size * -1
+                local_x = (x - self.width / 2) * pixel_size
+                local_y = (y - self.height / 2) * pixel_size * -1
 
 
                 half_pixel = pixel_size / 2
@@ -37,5 +38,20 @@ class Model:
 
         glEnd()
 
+
+        glColor3f(1, 1, 1, 1)
+        glBegin(GL_QUADS)
+        glVertex3f(-0.5, 0.5, 0)
+        glVertex3f(0.5, 0.5, 0)
+        glVertex3f(0.5, -0.5, 0)
+        glVertex3f(-0.5, -0.5, 0)
+        glEnd()
+
+        glColor3f(0, 0, 1)
+        glBegin(GL_POINTS)
+
+        glVertex3f(0, 0, 0)
+
+        glEnd()
 
 player_model = Model(3, 3, [(0, 0, 0), (1, 0, 0)], [0, 1, 0, 1, 1, 1, 1, 1, 1])
