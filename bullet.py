@@ -7,8 +7,9 @@ world_size = 10
 
 class Bullet(Entity):
     
-    def __init__(self):
-        super().__init__(bullet_model)
+    def __init__(self, owner):
+        super().__init__(bullet_model, 0.3)
+        self.owner = owner
 
     def tick(self, delta):
         self.position += Vec(0, 1).rotate(self.rotation) * speed * delta
@@ -17,3 +18,6 @@ class Bullet(Entity):
            self.position.y < -world_size or self.position.y > world_size):
             self.destroy()
 
+    def collision_enter(self, other):
+        if other is not self.owner and not isinstance(other, Bullet):
+            self.destroy()

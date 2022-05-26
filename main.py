@@ -7,6 +7,7 @@ from player import Player
 from model import Model
 from entity import entities
 from bullet import Bullet
+from enemy import Enemy
 
 def init():
     glutInit(sys.argv)
@@ -22,7 +23,9 @@ def init():
     glutKeyboardUpFunc(keyboard.on_up)
 
     entities.append(Player())
-    entities.append(Bullet())
+    entities.append(Enemy())
+    entities.append(Enemy())
+    entities.append(Enemy())
 
     glClearColor(0, 0, 0, 1)
     glutMainLoop()
@@ -39,19 +42,31 @@ def reshape(w, h):
 last_display_timestamp = time.time() 
 def display():
     global last_display_timestamp
+    global entities
+
+    delta = time.time() - last_display_timestamp
+    last_display_timestamp = time.time()
 
     glClearColor(0, 0, 0, 1)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
-    delta = time.time() - last_display_timestamp
 
     for entity in entities:
+        if entity.is_destroyed:
+            continue
+
         entity.tick(delta)
         entity.render()
 
-    last_display_timestamp = time.time()
+        for other in entities:
+            if other is entity or entity.is_destroyed:
+                continue
+            
+            entity.do_collision_test(other)
+
+    #entities = [entity for entity in entities if not entity.is_destroyed]
 
     glutSwapBuffers()
     glutPostRedisplay()
+
 
 init()

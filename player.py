@@ -6,12 +6,12 @@ from bullet import Bullet
 
 speed = 8
 rotation_speed = 270 
-cooldown = 0.3
+cooldown = 0.08
 
 class Player(Entity):
 
     def __init__(self):
-        super().__init__(player_model)
+        super().__init__(player_model, 0.75)
         self.position = Vec(0, 0)
         self.rotation = 0 
         self.remaining_cooldown = cooldown
@@ -44,7 +44,7 @@ class Player(Entity):
         self.position += Vec(0, dist).rotate(self.rotation) * speed * delta
 
     def shoot(self):
-        bullet = Bullet()
+        bullet = Bullet(self)
         bullet.position = self.position
         bullet.rotation = self.rotation
 

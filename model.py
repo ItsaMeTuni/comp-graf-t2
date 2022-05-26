@@ -26,16 +26,19 @@ class Model:
         glBegin(GL_QUADS)
         for x in range(self.width):
             for y in range(self.height):
+
                 pixel_color = self.pixels[y * self.width + x]
                 glColor3f(*self.colors[pixel_color])
-
+                
                 glVertex3f(-self.width/2 + x, -self.height/2 + (self.height - y), 0)
                 glVertex3f(-self.width/2 + x + 1, -self.height/2 + (self.height - y), 0)
                 glVertex3f(-self.width/2 + x + 1, -self.height/2 + (self.height - y - 1), 0)
                 glVertex3f(-self.width/2 + x, -self.height/2 + (self.height - y - 1), 0)
+
         glEnd()
 
         glPopMatrix()
 
 player_model = Model(3, 3, [(0, 0, 0), (1, 0, 0)], [0, 1, 0, 1, 1, 1, 1, 1, 1])
+enemy_model = Model(3, 3, [(0, 0, 0), (1, 0.6, 0)], [0, 1, 0, 1, 1, 1, 0, 1, 0])
 bullet_model = Model(1, 1, [(0, 0.7, 0.7)], [0])

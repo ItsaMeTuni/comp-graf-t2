@@ -1,4 +1,4 @@
-from math import cos, sin, radians
+from math import cos, sin, radians, sqrt
 
 class Vec:
     def __init__(self, x, y):
@@ -10,6 +10,9 @@ class Vec:
         x = self.x * cos(rad) - self.y * sin(rad)
         y = self.x * sin(rad) + self.y * cos(rad)
         return Vec(x, y)
+
+    def magnitude(self):
+        return sqrt(self.x*self.x + self.y*self.y)
 
     def __add__(self, other):
         x = self.x + other.x
