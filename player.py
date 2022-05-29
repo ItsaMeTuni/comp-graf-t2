@@ -7,6 +7,7 @@ from shooter_entity import ShooterEntity
 rotation_speed = 270 
 acceleration = 40
 drag = 10
+max_bullets = 10
 
 class Player(ShooterEntity):
 
@@ -15,6 +16,7 @@ class Player(ShooterEntity):
         self.position = Vec(0, 0)
         self.rotation = 0 
         self.momentum = Vec(0, 0)
+        self.can_shoot = False
 
     def tick(self, delta):
         super().tick(delta)
@@ -34,8 +36,14 @@ class Player(ShooterEntity):
         if is_key_pressed(b'a'):
             rot += 1
 
-        if is_key_pressed(b' '):
+
+        shoot_pressed = is_key_pressed(b' ')
+        if shoot_pressed and self.can_shoot and self.bullet_count < max_bullets:
+            self.can_shoot = False
             self.shoot()
+
+        if not shoot_pressed:
+            self.can_shoot = True
 
         self.rotation += rot * rotation_speed * delta
         self.momentum += Vec(0, dist).rotate(self.rotation) * acceleration * delta
@@ -63,6 +71,4 @@ class Player(ShooterEntity):
         elif self.position.y - self.hitbox_radius <= -bounds:
             self.position.y = -bounds + self.hitbox_radius 
             self.momentum.y = 0
-
-
 
