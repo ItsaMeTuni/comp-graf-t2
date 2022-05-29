@@ -22,10 +22,11 @@ def init():
     glutKeyboardFunc(keyboard.on_down)
     glutKeyboardUpFunc(keyboard.on_up)
 
-    entities.append(Player())
-    entities.append(Enemy())
-    entities.append(Enemy())
-    entities.append(Enemy())
+    player = Player()
+    entities.append(player)
+    entities.append(Enemy(player))
+    entities.append(Enemy(player))
+    entities.append(Enemy(player))
 
     glClearColor(0, 0, 0, 1)
     glutMainLoop()
