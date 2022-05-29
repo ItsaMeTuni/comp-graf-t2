@@ -43,3 +43,26 @@ class Player(ShooterEntity):
 
         self.position += self.momentum * delta
 
+        self.check_bounds_collision()
+
+    def check_bounds_collision(self):
+        bounds = 10
+       
+        if self.position.x + self.hitbox_radius >= bounds:
+            self.position.x = bounds - self.hitbox_radius 
+            self.momentum.x = 0
+            
+        elif self.position.x - self.hitbox_radius <= -bounds:
+            self.position.x = -bounds + self.hitbox_radius 
+            self.momentum.x = 0
+
+        if self.position.y + self.hitbox_radius >= bounds:
+            self.position.y = bounds - self.hitbox_radius 
+            self.momentum.y = 0
+
+        elif self.position.y - self.hitbox_radius <= -bounds:
+            self.position.y = -bounds + self.hitbox_radius 
+            self.momentum.y = 0
+
+
+
