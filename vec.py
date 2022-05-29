@@ -15,7 +15,13 @@ class Vec:
         return sqrt(self.x*self.x + self.y*self.y)
 
     def angle_between(self, other):
-        return degrees(acos(self.dot(other)/(self.magnitude() * other.magnitude())))
+        angle_in_radians = acos(self.dot(other)/(self.magnitude() * other.magnitude()))
+        angle = degrees(angle_in_radians)
+        
+        if (other - self).x > 0:
+            return -angle
+        else:
+            return angle
 
     def dot(self, other):
         return self.x * other.x + self.y * other.y
