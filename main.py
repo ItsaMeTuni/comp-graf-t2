@@ -4,9 +4,7 @@ from OpenGL.GL import *
 import time
 import keyboard
 from player import Player
-from model import Model
 from entity import entities
-from bullet import Bullet
 from enemy import Enemy
 
 def init():
@@ -51,6 +49,8 @@ def display():
     glClearColor(0, 0, 0, 1)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    collisions = []
+
     for entity in entities:
         if entity.is_destroyed:
             continue
@@ -61,10 +61,20 @@ def display():
         for other in entities:
             if other is entity or entity.is_destroyed:
                 continue
-            
-            entity.do_collision_test(other)
 
-    #entities = [entity for entity in entities if not entity.is_destroyed]
+            if (other, entity) in collisions:
+                continue
+            
+            collides = entity.do_collision_test(other)
+            if collides:
+                entity.collision_enter(other)
+                other.collision_enter(entity)
+
+            collisions.append((entity, other))
+
+    for entity in entities:
+        if entity.is_destroyed:
+            entities.remove(entity)
 
     glutSwapBuffers()
     glutPostRedisplay()

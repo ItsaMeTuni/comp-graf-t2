@@ -5,7 +5,7 @@ import random
 
 class Enemy(ShooterEntity):
     def __init__(self, player_instance):
-        super().__init__(enemy_model, 0.75)
+        super().__init__(1, enemy_model, 0.75)
         self.player_instance = player_instance
         
         self.min_cooldown = 0.7

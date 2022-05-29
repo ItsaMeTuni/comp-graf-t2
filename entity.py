@@ -31,8 +31,6 @@ class Entity:
         dist = diff.magnitude()
 
         collides = dist <= other_hitbox_radius + self.hitbox_radius
-        if collides:
-            self.collision_enter(other)
 
         return collides
         

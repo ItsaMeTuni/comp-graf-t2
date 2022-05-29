@@ -12,7 +12,7 @@ max_bullets = 10
 class Player(ShooterEntity):
 
     def __init__(self):
-        super().__init__(player_model, 0.75)
+        super().__init__(3, player_model, 0.75)
         self.position = Vec(0, 0)
         self.rotation = 0 
         self.momentum = Vec(0, 0)
