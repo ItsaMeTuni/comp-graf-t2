@@ -26,6 +26,13 @@ class Vec:
     def dot(self, other):
         return self.x * other.x + self.y * other.y
 
+    def normalized(self):
+        magnitude = self.magnitude()
+        if magnitude == 0:
+            return self
+
+        return self / self.magnitude()
+
     def __add__(self, other):
         x = self.x + other.x
         y = self.y + other.y

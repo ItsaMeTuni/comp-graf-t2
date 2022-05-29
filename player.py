@@ -4,8 +4,9 @@ from vec import Vec
 from bullet import Bullet
 from shooter_entity import ShooterEntity
 
-speed = 8
 rotation_speed = 270 
+acceleration = 40
+drag = 10
 
 class Player(ShooterEntity):
 
@@ -13,6 +14,7 @@ class Player(ShooterEntity):
         super().__init__(player_model, 0.75)
         self.position = Vec(0, 0)
         self.rotation = 0 
+        self.momentum = Vec(0, 0)
 
     def tick(self, delta):
         super().tick(delta)
@@ -36,5 +38,8 @@ class Player(ShooterEntity):
             self.shoot()
 
         self.rotation += rot * rotation_speed * delta
-        self.position += Vec(0, dist).rotate(self.rotation) * speed * delta
+        self.momentum += Vec(0, dist).rotate(self.rotation) * acceleration * delta
+        self.momentum -= self.momentum.normalized() * 10 * delta
+
+        self.position += self.momentum * delta
 
