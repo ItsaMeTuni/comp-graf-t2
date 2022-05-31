@@ -6,8 +6,8 @@ from shooter_entity import ShooterEntity
 from debug_utils import debug_vector
 
 rotation_speed = 270 
-acceleration = 40
-drag = 10
+acceleration = 30
+drag = 30
 max_bullets = 10
 
 class Player(ShooterEntity):
@@ -48,7 +48,9 @@ class Player(ShooterEntity):
 
         self.rotation += rot * rotation_speed * delta
         self.momentum += Vec(0, dist).rotate(self.rotation) * acceleration * delta
-        self.momentum -= self.momentum.normalized() * drag * delta
+
+        if dist == 0:
+            self.momentum -= self.momentum.normalized() * drag * delta
 
         self.position += self.momentum * delta
 
