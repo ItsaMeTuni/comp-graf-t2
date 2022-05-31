@@ -1,3 +1,4 @@
+from OpenGL.GL import *
 from shooter_entity import ShooterEntity
 from entity import entities
 from model import enemy_model_1, enemy_model_2, enemy_model_3
@@ -80,6 +81,24 @@ class Enemy(ShooterEntity):
 
         self.t += self.speed/self.path_len * delta
         self.position = quadratic_curve(self.vecs, self.t)
+
+    def render(self):
+        t = 0
+        step = 0.05
+
+
+        glColor3f(1, 1, 1)
+        glBegin(GL_LINE_STRIP)
+
+        while t < 1:
+           t += step 
+
+           pos = quadratic_curve(self.vecs, t)
+           glVertex3f(pos.x, pos.y, 1)
+
+        glEnd()
+
+        super().render()
 
 
     def set_cooldown(self):
