@@ -22,9 +22,6 @@ class ShooterEntity(Entity):
     def collision_enter(self, other):
         super().collision_enter(other)
 
-        if isinstance(other, Bullet) and other.owner is not self:
-            self.take_damage()
-
     def take_damage(self):
         self.lives -= 1
         if self.lives <= 0:

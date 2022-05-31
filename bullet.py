@@ -20,8 +20,14 @@ class Bullet(Entity):
             self.destroy()
 
     def collision_enter(self, other):
+        from enemy import Enemy
+        from player import Player
+
         if other is not self.owner and not isinstance(other, Bullet):
-            self.destroy()
+            if ((isinstance(self.owner, Player) and isinstance(other, Enemy))
+                or (isinstance(self.owner, Enemy) and isinstance(other, Player))):
+                self.destroy()
+                other.take_damage()
 
     def destroy(self):
         if self.on_destroy is not None:

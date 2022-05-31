@@ -2,6 +2,7 @@ from shooter_entity import ShooterEntity
 from entity import entities
 from model import enemy_model_1, enemy_model_2, enemy_model_3
 from vec import Vec
+from bullet import Bullet
 import random
 
 def choose_random_model():
@@ -12,8 +13,6 @@ def choose_random_model():
         return enemy_model_2
     else:
         return enemy_model_3
-
-
 
 class Enemy(ShooterEntity):
     def __init__(self, player_instance):
@@ -55,3 +54,5 @@ class Enemy(ShooterEntity):
 
         angle = Vec(0, 1).angle_between(offset)
         self.rotation = angle
+
+
