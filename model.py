@@ -7,17 +7,18 @@ pixel_size = 0.5
 
 class Model:
 
-    def __init__(self, width, height, colors, pixels):
+    def __init__(self, width, height, colors, pixels, scale):
         self.colors = colors
         self.width = width
         self.height = height
         self.pixels = pixels
+        self.scale = scale * pixel_size
 
 
     def render(self):
 
         glPushMatrix()
-        glScalef(pixel_size, pixel_size, pixel_size)
+        glScalef(self.scale, self.scale, self.scale)
 
         glBegin(GL_QUADS)
         for x in range(self.width):
@@ -36,7 +37,7 @@ class Model:
         glPopMatrix()
 
 
-def parse_model(file_path):
+def parse_model(file_path, scale):
     file = open(file_path)
 
     # skip first line
@@ -45,7 +46,7 @@ def parse_model(file_path):
     colors = []
     color_count = int(file.readline())
     for _ in range(color_count):
-        channels = [int(color) for color in file.readline().split(' ')]
+        channels = [float(color) / 255 for color in file.readline().split(' ')]
 
         alpha = 1
         if len(channels) == 5:
@@ -65,11 +66,12 @@ def parse_model(file_path):
         row_pixels = [int(pixel) - 1 for pixel in file.readline().split(' ')]
         pixels.extend(row_pixels)
 
-    return Model(col_count, row_count, colors, pixels)
+    return Model(col_count, row_count, colors, pixels, scale)
 
 
 
-#player_model = Model(3, 3, [(0, 0, 0), (1, 0, 0)], [0, 1, 0, 1, 1, 1, 1, 1, 1])
-player_model = parse_model('test_model.txt')
-enemy_model = Model(3, 3, [(0, 0, 0, 0), (1, 0.6, 0, 1)], [0, 1, 0, 1, 1, 1, 0, 1, 0])
-bullet_model = Model(1, 1, [(0, 0.7, 0.7, 1)], [0])
+player_model = parse_model('model_player.txt', 0.3)
+enemy_model_1 = parse_model('model_enemy_1.txt', 0.3)
+enemy_model_2 = parse_model('model_enemy_2.txt', 0.3)
+enemy_model_3 = parse_model('model_enemy_3.txt', 0.3)
+bullet_model = Model(1, 1, [(0, 0.7, 0.7, 1)], [0], 0.3)

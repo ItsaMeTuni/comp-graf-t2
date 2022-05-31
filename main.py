@@ -7,6 +7,8 @@ from player import Player
 from entity import entities
 from enemy import Enemy
 
+enemy_count = 5
+
 def init():
     glutInit(sys.argv)
     glutInitDisplayMode(GLUT_RGBA)
@@ -22,9 +24,9 @@ def init():
 
     player = Player()
     entities.append(player)
-    entities.append(Enemy(player))
-    entities.append(Enemy(player))
-    entities.append(Enemy(player))
+
+    for _ in range(enemy_count):
+        entities.append(Enemy(player))
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
     glEnable(GL_BLEND)
