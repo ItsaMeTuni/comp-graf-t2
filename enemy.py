@@ -3,7 +3,10 @@ from entity import entities
 from model import enemy_model_1, enemy_model_2, enemy_model_3
 from vec import Vec
 from bullet import Bullet
+from bezier import quadratic_curve
 import random
+
+bounds = 10
 
 def choose_random_model():
     chance = random.uniform(0, 3)
@@ -14,6 +17,9 @@ def choose_random_model():
     else:
         return enemy_model_3
 
+def random_vecs(amount):
+    return [Vec(random.uniform(-bounds, bounds), random.uniform(-bounds, bounds)) for _ in range(amount)]
+
 class Enemy(ShooterEntity):
     def __init__(self, player_instance):
         super().__init__(1, choose_random_model(), 0.75)
@@ -23,7 +29,12 @@ class Enemy(ShooterEntity):
         self.max_cooldown = 3 
         self.set_cooldown()
 
+        self.t = 0
+        self.speed = 0.2
+
         self.random_position()
+
+        self.vecs = [self.position] + random_vecs(2)
 
     def random_position(self):
         while True:
@@ -33,6 +44,21 @@ class Enemy(ShooterEntity):
                     continue
 
             break
+    
+    def colinear_vec(self):
+        vec = self.vecs[2] + (self.vecs[2] - self.vecs[1] * random.uniform(0, 2))
+        
+        if vec.x > bounds:
+            vec.x = bounds
+        elif vec.x < -bounds:
+            vec.x = -bounds
+        
+        if vec.y > bounds:
+            vec.y = bounds
+        elif vec.y < -bounds:
+            vec.y = -bounds
+        
+        return vec
 
     def tick(self, delta):
         super().tick(delta)
@@ -44,6 +70,14 @@ class Enemy(ShooterEntity):
         if self.remaining_cooldown <= 0:
             self.shoot()
             self.set_cooldown()
+        
+        if self.t >= 1:
+            self.t = 0
+            self.vecs = [self.vecs[2], self.colinear_vec()] + random_vecs(1)
+
+        self.t += self.speed * delta
+        self.position = quadratic_curve(self.vecs, self.t)
+
 
     def set_cooldown(self):
         self.remaining_cooldown = random.uniform(self.min_cooldown, self.max_cooldown)
