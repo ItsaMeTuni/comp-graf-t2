@@ -19,8 +19,8 @@ class Enemy(ShooterEntity):
         super().__init__(1, choose_random_model(), 0.75)
         self.player_instance = player_instance
         
-        self.min_cooldown = 1
-        self.max_cooldown = 2.3 
+        self.min_cooldown = 1.6
+        self.max_cooldown = 3 
         self.set_cooldown()
 
         self.random_position()
