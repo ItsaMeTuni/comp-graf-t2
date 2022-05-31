@@ -3,7 +3,7 @@ from entity import entities
 from model import enemy_model_1, enemy_model_2, enemy_model_3
 from vec import Vec
 from bullet import Bullet
-from bezier import quadratic_curve
+from bezier import quadratic_curve, quadratic_curve_length 
 import random
 
 bounds = 10
@@ -30,11 +30,13 @@ class Enemy(ShooterEntity):
         self.set_cooldown()
 
         self.t = 0
-        self.speed = 0.2
+        self.speed = 25
 
         self.random_position()
 
         self.vecs = [self.position] + random_vecs(2)
+
+        self.path_len = quadratic_curve_length(self.vecs)
 
     def random_position(self):
         while True:
@@ -74,8 +76,9 @@ class Enemy(ShooterEntity):
         if self.t >= 1:
             self.t = 0
             self.vecs = [self.vecs[2], self.colinear_vec()] + random_vecs(1)
+            self.path_len = quadratic_curve_length(self.vecs)
 
-        self.t += self.speed * delta
+        self.t += self.speed/self.path_len * delta
         self.position = quadratic_curve(self.vecs, self.t)
 
 
