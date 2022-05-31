@@ -8,8 +8,8 @@ class Enemy(ShooterEntity):
         super().__init__(1, enemy_model, 0.75)
         self.player_instance = player_instance
         
-        self.min_cooldown = 0.7
-        self.max_cooldown = 1.2
+        self.min_cooldown = 1
+        self.max_cooldown = 2.3 
         self.set_cooldown()
 
         self.position = Vec(random.uniform(-5, 5), random.uniform(-5, 5))
@@ -22,7 +22,7 @@ class Enemy(ShooterEntity):
         self.look_at(self.player_instance.position)
 
         if self.remaining_cooldown <= 0:
-            self.shoot()
+            #self.shoot()
             self.set_cooldown()
 
     def set_cooldown(self):

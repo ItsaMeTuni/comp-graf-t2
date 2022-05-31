@@ -33,6 +33,13 @@ class Vec:
 
         return self / self.magnitude()
 
+    def project_onto(self, other):
+        other_magnitude = other.magnitude()
+        if other_magnitude == 0:
+            return other
+
+        return other * (self.dot(other)/(other_magnitude**2))
+
     def __add__(self, other):
         x = self.x + other.x
         y = self.y + other.y

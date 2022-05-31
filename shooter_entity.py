@@ -28,5 +28,4 @@ class ShooterEntity(Entity):
     def take_damage(self):
         self.lives -= 1
         if self.lives <= 0:
-            print(self.lives)
             self.destroy()

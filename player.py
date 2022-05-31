@@ -3,6 +3,7 @@ from model import player_model
 from vec import Vec
 from bullet import Bullet
 from shooter_entity import ShooterEntity
+from debug_utils import debug_vector
 
 rotation_speed = 270 
 acceleration = 40
@@ -47,7 +48,7 @@ class Player(ShooterEntity):
 
         self.rotation += rot * rotation_speed * delta
         self.momentum += Vec(0, dist).rotate(self.rotation) * acceleration * delta
-        self.momentum -= self.momentum.normalized() * 10 * delta
+        self.momentum -= self.momentum.normalized() * drag * delta
 
         self.position += self.momentum * delta
 
