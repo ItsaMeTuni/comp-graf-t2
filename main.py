@@ -6,6 +6,7 @@ import keyboard
 from player import Player
 from entity import entities
 from enemy import Enemy
+import ctypes
 
 enemy_count = 5
 
@@ -42,16 +43,36 @@ def reshape(w, h):
     glMatrixMode(GL_MODELVIEW)
     glLoadIdentity()
 
+def draw_string(s):
+    for c in s:
+        glutBitmapCharacter(GLUT_BITMAP_8_BY_13, ctypes.c_int(ord(c)))
+
 last_display_timestamp = time.time() 
+lost_game = False
+won_game = False
 def display():
     global last_display_timestamp
     global entities
+    global lost_game, won_game
 
     delta = time.time() - last_display_timestamp
     last_display_timestamp = time.time()
 
     glClearColor(0, 0, 0, 1)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glColor3f(1, 1, 1)
+    if lost_game:
+        glRasterPos2f(0.5, 0.5)
+        draw_string('You lost')
+
+    if won_game:
+        glRasterPos2f(0.5, 0.5)
+        draw_string('You won')
+
+    if lost_game or won_game:
+        glutSwapBuffers()
+        return
 
     collisions = []
 
@@ -75,10 +96,20 @@ def display():
                 other.collision_enter(entity)
 
             collisions.append((entity, other))
-
+    
+    lost_game = True
+    won_game = True
     for entity in entities:
         if entity.is_destroyed:
             entities.remove(entity)
+
+        if isinstance(entity, Enemy):
+            won_game = False
+
+        if isinstance(entity, Player):
+            lost_game = False
+
+    
 
     glutSwapBuffers()
     glutPostRedisplay()
