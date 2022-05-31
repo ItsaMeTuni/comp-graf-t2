@@ -43,7 +43,7 @@ class Enemy(ShooterEntity):
         self.look_at(self.player_instance.position)
 
         if self.remaining_cooldown <= 0:
-            #self.shoot()
+            self.shoot()
             self.set_cooldown()
 
     def set_cooldown(self):
